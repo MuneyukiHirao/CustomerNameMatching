@@ -1,6 +1,5 @@
 fastapi
 uvicorn[standard]
-uvicorn[standard]
 python-dotenv
 sqlalchemy
 psycopg2-binary
@@ -23,3 +22,4 @@ python-tds>=1.4.6
 sqlalchemy-pytds>=1.0.0
 pytest
 pytest-cov
+gunicorn
