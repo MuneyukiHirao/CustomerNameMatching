@@ -6,9 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
 from pathlib import Path
-from backend.pipeline import init_db, process_upload
-from backend.db import SessionLocal
-from backend.models import MatchScore
+import sys
+sys.path.append(str(Path(__file__).parent))
+from pipeline import init_db, process_upload
+from db import SessionLocal
+from models import MatchScore
 from datetime import datetime
 from uuid import uuid4
 import io
@@ -88,7 +90,7 @@ async def upload(
         logging.info("Debug mode: running process_upload synchronously")
         # Wait for background DB initialization to complete
         try:
-            from backend.pipeline import table_init_done
+            from pipeline import table_init_done
             table_init_done.wait(timeout=30)
         except ImportError:
             pass
