@@ -90,30 +90,24 @@ az sql server firewall-rule create `
   --start-ip-address 223.135.207.25 `
   --end-ip-address 223.135.207.25
 
-# Create App Service Plan and Web Apps
-$PLAN_NAME = "custmatch-plan"
-az appservice plan create `
-  --name $PLAN_NAME `
-  --resource-group hirao-test_group `
-  --is-linux `
-  --sku B1
-az webapp create `
-  --resource-group hirao-test_group `
-  --plan $PLAN_NAME `
-  --name custmatch-back `
-  --runtime "PYTHON|3.10"
-az webapp create `
-  --resource-group hirao-test_group `
-  --plan $PLAN_NAME `
-  --name custmatch `
-  --runtime "NODE|16-lts"
+# Ensure OPENAI_API_KEY env var is set
+if (-not $env:OPENAI_API_KEY) {
+  Write-Error "Please set OPENAI_API_KEY environment variable before running script"
+  exit 1
+}
+# Upload OpenAI API key to Key Vault
+az keyvault secret set --vault-name CustomerMatcherKeyVault1 --name openai-api-key --value $env:OPENAI_API_KEY
+
+# Create App Service Plan
+az appservice plan create --name custmatch-plan --resource-group hirao-test_group --is-linux --sku B1
+
+# Create Web Apps (use `--%` immediately after az to stop PowerShell parsing for `|`)
+az webapp create --resource-group hirao-test_group --plan custmatch-plan --name custmatch-back --runtime "PYTHON|3.10"
+az webapp create --resource-group hirao-test_group --plan custmatch-plan --name custmatch --runtime "NODE|16-lts"
+
+# Wait for Web Apps provisioning
+Start-Sleep -Seconds 30
 
 # Configure backend App Settings
-az webapp config appsettings set `
-  --resource-group hirao-test_group `
-  --name custmatch-back `
-  --settings `
-    SQL_CONN="$SQL_CONN" `
-    KEYVAULT_NAME="CustomerMatcherKeyVault1" `
-    OPENAI_API_KEY="$(az keyvault secret show --vault-name CustomerMatcherKeyVault1 --name openai-api-key --query value -o tsv)"
+az webapp config appsettings set --resource-group hirao-test_group --name custmatch-back --settings SQL_CONN="$SQL_CONN" KEYVAULT_NAME="CustomerMatcherKeyVault1" OPENAI_API_KEY="$(az keyvault secret show --vault-name CustomerMatcherKeyVault1 --name openai-api-key --query value -o tsv)"
 Write-Host "App Service setup complete"
