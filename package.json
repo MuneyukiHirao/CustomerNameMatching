@@ -1,0 +1,13 @@
+{
+  "name": "customer-name-matching",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "backend": "python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000",
+    "frontend": "cd frontend && npm start",
+    "dev": "concurrently -k -n API,FE -c cyan,magenta \"npm:backend\" \"npm:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

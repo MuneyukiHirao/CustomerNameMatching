@@ -1,0 +1,25 @@
+fastapi
+uvicorn[standard]
+uvicorn[standard]
+python-dotenv
+sqlalchemy
+psycopg2-binary
+jellyfish
+openai
+faiss-cpu
+pandas
+xlsxwriter
+azure-identity
+azure-keyvault-secrets
+boto3
+python-multipart
+jinja2
+azure-storage-blob
+requests
+openpyxl
+pyodbc
+# Removed invalid py-mssql package
+python-tds>=1.4.6
+sqlalchemy-pytds>=1.0.0
+pytest
+pytest-cov

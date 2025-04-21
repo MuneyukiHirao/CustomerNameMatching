@@ -1,0 +1,22 @@
+Get-Process python | Stop-Process -Force
+
+cd C:\Users\km61712\CascadeProjects\CustomerNameMatching
+
+## backend
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+
+## frontend
+cd frontend
+npm start
+
+## frontend (debug)
+
+------------ back ------------
+## backend (debug)
+python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000 --log-level debug
+
+## tests
+pytest --maxfail=1 --disable-warnings -q
+
+## coverage
+pytest --cov=backend --cov-report=term-missing --cov-report=html
