@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Unicode, Float, ForeignKey, DateTime, Lar
 from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
 from sqlalchemy.orm import relationship
 import uuid
-from .db import Base
+from db import Base
 import os
 from sqlalchemy.types import TypeDecorator, CHAR
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID

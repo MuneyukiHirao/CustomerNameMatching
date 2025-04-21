@@ -6,8 +6,8 @@ from pathlib import Path
 import numpy as np
 import jellyfish
 from sqlalchemy.orm import Session
-from .db import SessionLocal, engine, Base, get_blob_secret
-from .models import CustomerStdA, CustomerStdB, MatchCandidate, MatchScore
+from db import SessionLocal, engine, Base, get_blob_secret
+from models import CustomerStdA, CustomerStdB, MatchCandidate, MatchScore
 import json
 import os
 from datetime import date, datetime, timedelta
@@ -28,7 +28,7 @@ import uuid
 import time
 import pyodbc
 from typing import Callable, Optional
-from .sas_helpers import _get_container_client, _generate_sas
+from sas_helpers import _get_container_client, _generate_sas
 
 # Load environment variables from .env (non-overriding)
 env_path = Path(__file__).parent / ".env"

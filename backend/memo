@@ -20,3 +20,9 @@ pytest --maxfail=1 --disable-warnings -q
 
 ## coverage
 pytest --cov=backend --cov-report=term-missing --cov-report=html
+
+------- Git ---------
+
+
+az login --subscription d7237083-ec74-41b2-932a-344e4fff47fd
+
